@@ -4,6 +4,9 @@ on: workflow_dispatch
 jobs:
     build:
         runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: 04-using-actions/react-app
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
@@ -12,10 +15,6 @@ jobs:
               with:
                 node-version: 20
             - name: Install Dependencies
-              run: |
-                cd 04-using-actions
-                cd react-app
-                npm ci
+              run: npm ci
             - name: Run Unit Tests
               run: npm run test
-              working-directory: 04-using-actions/react-app
