@@ -2,6 +2,7 @@ name: 06 - Contexts
 on:
     push:
     workflow_dispatch:
+run-name: "My custom workflow run name - ${{ runner.os }}"
 
 jobs:
     echo-data:
