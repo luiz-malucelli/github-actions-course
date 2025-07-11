@@ -1,6 +1,5 @@
 name: 08 - Using Variables
 on:
-    push:
     workflow_dispatch:
 env:
     WORKFLOW_VAR: 'I am a workflow env var'
@@ -37,7 +36,7 @@ jobs:
                 echo "Repo var: ${{ vars.REPOSITORY_VAR }}"
     echo-prod:
         runs-on: ubuntu-latest
-        environment: staging
+        environment: prod
         steps:
             - name: Print Prod Variables
               run: |
