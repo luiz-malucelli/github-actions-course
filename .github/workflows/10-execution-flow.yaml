@@ -1,4 +1,5 @@
 name: 10 - Controlling the Execution Flow
+run-name: "10 - Controlling the Execution Flow - pass-unit-tests: ${{ inputs.pass-unit-tests && 'ON' || 'OFF' }}" 
 on:
     workflow_dispatch:
         inputs:
