@@ -41,6 +41,6 @@ jobs:
             - name: Print Outputs
               run: |
                 cat << EOF
-                ${{ needs.build.outputs }}
+                ${{ toJson(needs.build.outputs) }}
                 EOF
         
