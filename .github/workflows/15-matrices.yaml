@@ -6,7 +6,7 @@ jobs:
     backwards-compatibility:
         runs-on: ubuntu-latest
         strategy:
-            fail-fast: false
+            fail-fast: true
             matrix:
                 node-version:
                     - 18.x
@@ -17,12 +17,10 @@ jobs:
                     - windows-latest
                 include:
                     - os: ubuntu-latest
-                      tag: linux
+                      node-version: 16.x
                     - os: ubuntu-latest
                       node-version: 21.x
                       tag: experimental
-                    - os: ubuntu-latest
-                      node-version: 16.x
         name: ${{ matrix.os }}-${{ matrix.node-version }}
         steps:
             - name: Setup node
