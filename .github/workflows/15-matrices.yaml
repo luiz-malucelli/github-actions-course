@@ -40,15 +40,9 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                color:
-                    - red
-                    - green
-                shape:
-                    - circle
-                    - square
-                size:
-                    - small
-                    - large
+                color: [red, green]
+                shape: [circle, square]
+                size: [small, large]
                 include:
                     - color: red
                       opacity: 75
@@ -57,6 +51,8 @@ jobs:
                     - color: red
                       shape: triangle
                     - opacity: 50
+                exclude:
+                    - opacity: 75
         name: ${{ matrix.color }}-${{ matrix.shape }}-${{ matrix.size }}-${{ matrix.opacity }}
         steps:
             - name: Dummy step
