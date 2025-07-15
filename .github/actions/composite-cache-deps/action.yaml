@@ -28,14 +28,16 @@ runs:
     - name: Install dependencies
       if: ${{ steps.cache.outputs.cache-hit != 'true' }}
       working-directory: ${{ inputs.working-dir }}
-      run: |
-        if [ "$TARGET_ENV" = "dev" ]; then
-          echo "Installing all dependencies"
-          npm ci
-        else
-          echo "Installing only production dependencies..."
-          npm ci --omit=dev
-        fi
+      run: ${{ inputs.target-env == 'dev' && 'npm ci' || 'npm ci --omit=dev' }}
+      # alternative way of writing it
+      # run: |
+      #   if [ "$TARGET_ENV" = "dev" ]; then
+      #     echo "Installing all dependencies"
+      #     npm ci
+      #   else
+      #     echo "Installing only production dependencies..."
+      #     npm ci --omit=dev
+      #   fi
       env:
         TARGET_ENV: ${{ inputs.target-env }}
       shell: bash
