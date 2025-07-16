@@ -17,12 +17,15 @@ async function run() {
     */
   core.info('I am a custom JS action');
 
-  const baseBranch = core.getInput('base-branch').trim();;
-  const targetBranch = core.getInput('target-branch').trim();;
-  const workingDir = core.getInput('working-directory').trim();;
+  const baseBranch = core.getInput('base-branch').trim();
+  const targetBranch = core.getInput('target-branch').trim();
+  const workingDir = core.getInput('working-directory').trim();
 
   const branchRegex = /^[a-zA-Z_\/\-.]+$/;
   const dirRegex = /^[a-zA-Z_\/\-]+$/;
+
+  core.info(workingDir);
+  core.info(dirRegex.test(workingDir));
 
   if (!branchRegex.test(baseBranch)) {
     core.setFailed('Invalid base-branch name');
