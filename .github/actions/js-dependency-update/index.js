@@ -1,4 +1,5 @@
 const core = require('@actions/core');
+const exec = require('@actions/exec');
  
 async function run() { 
     /**
@@ -15,6 +16,40 @@ async function run() {
     5. Otherwise, conclude the custom action
     */
   core.info('I am a custom JS action');
+
+  const baseBranch = core.getInput('base-branch');
+  const targetBranch = core.getInput('target-branch');
+  const workingDir = core.getInput('working-dir');
+
+  const branchRegex = /^[a-zA-Z_\/\-.]+$/;
+  const dirRegex = /^[a-zA-Z_\/\-]+$/;
+
+  if (!branchRegex.test(baseBranch)) {
+    core.setFailed('Invalid base-branch name');
+    return;
+  } else if (!branchRegex.test(targetBranch)) {
+    core.setFailed('Invalid base-branch name');
+    return;
+  } else if (!dirRegex.test(workingDir)) {
+    core.setFailed('Invalid working directory')
+    return;
+  }
+
+  core.info(`Base branch: ${baseBranch}`);
+  core.info(`Target branch: ${targetBranch}`);
+  core.info(`Working directory: ${workingDir}`);
+
+    const execOptions = {
+        cwd: workingDir,
+    };
+
+  exec.exec('npm update', null, execOptions);
+  const res = await exec.getExecOutput('git status -s package*.json', null, execOptions);
+  if (res.stdout.length > 0) {
+    core.info('There are updates available.');
+  } else {
+    core.info('There are no updates available.');
+  }
 }
 
 run();

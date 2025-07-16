@@ -1,7 +1,20 @@
 name: 17 - 2 - Custom Actions - JS
-run-name: 17 - 2 - Custom Actions - JS
+run-name: '17 - 2 - Custom Actions - JS | base-branch: ${{ inputs.base-branch }} | target-branch: ${{ inputs.target-branch }} | working-dir: ${{ inputs.working-dir }}' 
 on:
     workflow_dispatch:
+        inputs:
+            base-branch:
+                type: string
+                required: true
+            target-branch:
+                type: string
+                required: true
+            working-dir:
+                type: string
+                required: true
+            debug:
+                type: boolean
+                default: false
 
 jobs:
     dependency-update:
@@ -11,3 +24,8 @@ jobs:
               uses: actions/checkout@v4
             - name: Check for dependency updates
               uses: ./.github/actions/js-dependency-update
+              with:
+                base-branch: ${{ inputs.base-branch }}
+                target-branch: ${{ inputs.target-branch }}
+                working-dir: ${{ inputs.working-dir }}
+                debug: ${{ secrets.GITHUB_TOKEN }}
