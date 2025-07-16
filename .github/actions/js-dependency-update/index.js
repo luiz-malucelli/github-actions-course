@@ -56,6 +56,8 @@ async function run() {
     await exec.exec('git add package.json', [], execOptions);
     await exec.exec('git add package-lock.json', [], execOptions);
     const now = new Date();
+    await exec.exec('git config user.name "github-actions[bot]"', [], execOptions);
+    await exec.exec('git config user.email "github-actions[bot]@users.noreply.github.com"', [], execOptions);
     await exec.exec(`git commit -m "[js-dependency-update] : ${now.toISOString().substring(0, 19)} : new update available"`, [], execOptions);
     await exec.exec(`git push -u origin ${targetBranch}`, [], execOptions);
 
