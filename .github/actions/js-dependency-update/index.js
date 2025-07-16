@@ -18,10 +18,10 @@ async function run() {
   */
   core.info('I am a custom JS action');
 
-  const baseBranch = core.getInput('base-branch').trim();
-  const targetBranch = core.getInput('target-branch').trim();
-  const ghToken = core.getInput('gh-token'); 
-  const workingDir = core.getInput('working-directory').trim();
+  const baseBranch = core.getInput('base-branch', { required: true }).trim();
+  const targetBranch = core.getInput('target-branch', { required: true }).trim();
+  const ghToken = core.getInput('gh-token', { required: true }); 
+  const workingDir = core.getInput('working-directory', { required: true }).trim();
   const debug = core.getBooleanInput('debug');
 
   core.setSecret(ghToken);
@@ -51,15 +51,14 @@ async function run() {
   await exec.exec('npm update', [], execOptions);
   const res = await exec.getExecOutput('git status -s package*.json', [], execOptions);
   if (res.stdout.length > 0) {
-    core.info('There are updates available.');
+    core.info('[js-dependency-update] : There are updates available.');
     await exec.exec(`git checkout -b ${targetBranch}`, [], execOptions);
-    await exec.exec('git add package.json', [], execOptions);
-    await exec.exec('git add package-lock.json', [], execOptions);
+    await exec.exec('git add package.json package-lock.json', [], execOptions);
     const now = new Date();
     await exec.exec('git config user.name "github-actions[bot]"', [], execOptions);
     await exec.exec('git config user.email "github-actions[bot]@users.noreply.github.com"', [], execOptions);
-    await exec.exec(`git commit -m "[js-dependency-update] : ${now.toISOString().substring(0, 19)} : new update available"`, [], execOptions);
-    await exec.exec(`git push -u origin ${targetBranch}`, [], execOptions);
+    await exec.exec(`git commit -m "[js-dependency-update] : update dependencies"`, [], execOptions);
+    await exec.exec(`git push -u origin ${targetBranch} --force`, [], execOptions);
 
     const octokit = github.getOctokit(ghToken);
 
@@ -78,7 +77,7 @@ async function run() {
         core.error(e);
     }
   } else {
-    core.info('No updates at this point in time.');
+    core.info('[js-dependency-update] : No updates at this point in time.');
   }
 }
 
