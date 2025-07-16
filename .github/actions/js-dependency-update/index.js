@@ -51,6 +51,29 @@ async function run() {
   const res = await exec.getExecOutput('git status -s package*.json', [], execOptions);
   if (res.stdout.length > 0) {
     core.info('There are updates available.');
+    await exec.exec(`git checkout -b ${targetBranch}`, [], execOptions);
+    await exec.exec('git add package.json', [], execOptions);
+    await exec.exec('git add package-lock.json', [], execOptions);
+    const now = new Date();
+    await exec.exec(`git commit -m "[js-dependency-update] : ${now.toISOString().substring(0, 19)} : new update available"`, [], execOptions);
+    await exec.exec(`git push -u origin ${targetBranch}`, [], execOptions);
+
+    const octokit = github.getOctokit(ghToken);
+
+    try {
+        await octokit.rest.pulls.create({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        title: `Update NPM dependencies`,
+        body: `This pull request updates NPM packages`,
+        base: baseBranch,
+        head: targetBranch 
+        });
+    } catch (e) {
+        core.error('[js-dependency-update] : Something went wrong while creating the PR. Check logs below.');
+        core.setFailed(e.message);
+        core.error(e);
+    }
   } else {
     core.info('No updates at this point in time.');
   }

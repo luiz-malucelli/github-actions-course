@@ -1,5 +1,8 @@
 name: 17 - 2 - Custom Actions - JS
 run-name: '17 - 2 - Custom Actions - JS | BB: ${{ inputs.base-branch }} | TB: ${{ inputs.target-branch }} | WD: ${{ inputs.working-dir }}' 
+permissions:
+    contents: write
+    pull-requests: write 
 on:
     workflow_dispatch:
         inputs:
@@ -28,4 +31,5 @@ jobs:
                 base-branch: ${{ inputs.base-branch }}
                 target-branch: ${{ inputs.target-branch }}
                 working-directory: ${{ inputs.working-dir }}
-                debug: ${{ secrets.GITHUB_TOKEN }}
+                debug: ${{ inputs.debug }}
+                gh-token: ${{ secrets.GITHUB_TOKEN }}
