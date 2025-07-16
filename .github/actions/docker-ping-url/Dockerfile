@@ -2,19 +2,16 @@
 FROM python:3.13-alpine3.19
 
 # Creates and moves into /app inside the container
-WORKDIR /github/workspace
-
-# Copies your local main.py into /app/main.py
-COPY main.py .
+WORKDIR /app
 
 # (Optional) Copy requirements if you have dependencies
 COPY requirements.txt .
 
 # Install dependencies
+RUN python -V
 RUN pip install --no-cache-dir -r requirements.txt || true
 
-#Debug
-RUN ls -la /github/workspace
+COPY . .
 
 # Run the script when the container starts
-CMD ["python", ".github/actions/docker-ping-url/main.py"]
+CMD [ "python", "app/main.py"]
