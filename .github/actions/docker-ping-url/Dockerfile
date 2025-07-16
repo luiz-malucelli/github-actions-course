@@ -1,14 +1,14 @@
 # Use a lightweight Python image
 FROM python:3.13-alpine3.19
 
-# Set the working directory in the container
-WORKDIR /app
+# Creates and moves into /app inside the container
+WORKDIR /app 
 
-# Copy the Python files into the container
-COPY main.py .
+# Copies your local main.py into /app/main.py
+COPY .github/actions/docker-ping-url/main.py .
 
 # (Optional) Copy requirements if you have dependencies
-COPY requirements.txt .
+COPY .github/actions/docker-ping-url/requirements.txt .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt || true
