@@ -24,9 +24,6 @@ async function run() {
   const branchRegex = /^[a-zA-Z0-9_\/\-.]+$/;
   const dirRegex = /^[a-zA-Z0-9_\/\-]+$/;
 
-  core.info(workingDir);
-  core.info(dirRegex.test(workingDir));
-
   if (!branchRegex.test(baseBranch)) {
     core.setFailed('Invalid base-branch name');
     return;
@@ -46,7 +43,7 @@ async function run() {
         cwd: workingDir,
     };
 
-  exec.exec('npm update', null, execOptions);
+  await exec.exec('npm update', null, execOptions);
   const res = await exec.getExecOutput('git status -s package*.json', null, execOptions);
   if (res.stdout.length > 0) {
     core.info('There are updates available.');
