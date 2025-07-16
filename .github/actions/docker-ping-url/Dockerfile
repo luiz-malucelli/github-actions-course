@@ -10,11 +10,11 @@ COPY main.py .
 # (Optional) Copy requirements if you have dependencies
 COPY requirements.txt .
 
+#Debug
+RUN ls -la /app
+
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt || true
-
-#Debug
-RUN ls -la /github/workspace
 
 # Run the script when the container starts
 CMD [ "python", "/app/main.py"]
