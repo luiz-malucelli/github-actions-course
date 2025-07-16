@@ -17,4 +17,4 @@ RUN pip install --no-cache-dir -r requirements.txt || true
 RUN ls -la /github/workspace
 
 # Run the script when the container starts
-CMD [ "python", "app/main.py"]
+CMD [ "python", "/app/main.py"]
