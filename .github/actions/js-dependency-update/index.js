@@ -19,7 +19,7 @@ async function run() {
 
   const baseBranch = core.getInput('base-branch');
   const targetBranch = core.getInput('target-branch');
-  const workingDir = core.getInput('working-dir');
+  const workingDir = core.getInput('working-directory');
 
   const branchRegex = /^[a-zA-Z_\/\-.]+$/;
   const dirRegex = /^[a-zA-Z_\/\-]+$/;
