@@ -5,10 +5,10 @@ FROM python:3.13-alpine3.19
 WORKDIR /app 
 
 # Copies your local main.py into /app/main.py
-COPY .github/actions/docker-ping-url/main.py .
+COPY main.py .
 
 # (Optional) Copy requirements if you have dependencies
-COPY .github/actions/docker-ping-url/requirements.txt .
+COPY requirements.txt .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt || true
