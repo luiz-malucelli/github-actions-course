@@ -13,5 +13,8 @@ COPY requirements.txt .
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt || true
 
+#Debug
+RUN ls -la /github/workspace
+
 # Run the script when the container starts
 CMD ["python", "main.py"]
