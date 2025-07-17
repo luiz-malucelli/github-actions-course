@@ -25,3 +25,6 @@ inputs:
   debug:
     description: Whether the output debug messages to the console
     required: false
+outputs:
+  updates-available:
+    description: Whether there are updates available

@@ -60,7 +60,11 @@ async function run() {
   await exec.exec('npm update', [], execOptions);
 
   const gitStatus = await exec.getExecOutput('git status -s package*.json', [], execOptions);
-  if (gitStatus.stdout.length > 0) {
+  const updatesAvailable = gitStatus.stdout.length > 0;
+  
+  core.setOutput('updates-available', updatesAvailable);
+
+  if (updatesAvailable) {
     logger.info('There are updates available.');
     await exec.exec(`git checkout -b ${headBranch}`, [], execOptions);
     await exec.exec('git add package.json package-lock.json', [], execOptions);
