@@ -2,6 +2,10 @@ import requests
 import time
 import os
 
+def set_output(file_path, key, value):
+    with open(file_path, 'a') as f:
+        print(f'{key}={value}', file=f)
+
 def ping_url(url, delay, max_trials):
     trial = 1
     while (trial <= max_trials):
@@ -35,8 +39,7 @@ def run():
 
     website_reachable = ping_url(url, delay, max_trials)
 
-    with open(output_path, "a") as f:
-        print(f"url-reachable={website_reachable}", file=f)
+    set_output(output_path, 'url-reachable', website_reachable)
 
     if not website_reachable:
         raise Exception(f"Website {url} is malformed or unreachable.")
