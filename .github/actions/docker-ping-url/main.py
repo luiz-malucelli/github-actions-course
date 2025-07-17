@@ -1,4 +1,4 @@
-import urllib.request
+import requests
 import time
 import os
 
@@ -6,13 +6,13 @@ def ping_url(url, delay, max_trials):
     trial = 1
     while (trial <= max_trials):
         try:
-            with urllib.request.urlopen(url) as response:
-                status_code = response.getcode()
-                if (status_code == 200):
-                    print(f"Success on trial {trial}")
-                    return True
-                else:
-                    print(f"Status {status_code} on trial {trial}")
+            response = requests.get(url)
+            status_code = response.status_code
+            if (status_code == 200):
+                print(f"Success on trial {trial}")
+                return True
+            else:
+                print(f"Status {status_code} on trial {trial}")
         except Exception as e:
             print(f"Exception on trial {trial}: {e}")
 
@@ -32,8 +32,10 @@ def run():
     print(f"max_trials: {max_trials}")
     print(f"delay: {delay}")
 
-    ping_url(url, delay, max_trials)
+    website_reachable = ping_url(url, delay, max_trials)
 
+    if not website_reachable:
+        raise Exception(f"Website {url} is malformed or unreachable.")
 
 if __name__ == "__main__":
     run()
