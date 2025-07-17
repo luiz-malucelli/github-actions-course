@@ -27,6 +27,7 @@ def run():
     url = os.environ.get('INPUT_URL')
     max_trials = int(os.environ.get('INPUT_MAX_TRIALS', 10))
     delay = int(os.environ.get('INPUT_DELAY', 5))
+    output_path = os.environ.get("GITHUB_OUTPUT")
 
     print(f"url: {url}")
     print(f"max_trials: {max_trials}")
@@ -34,8 +35,12 @@ def run():
 
     website_reachable = ping_url(url, delay, max_trials)
 
+    with open(output_path, "a") as f:
+        print(f"url-reachable={website_reachable}", file=f)
+
     if not website_reachable:
         raise Exception(f"Website {url} is malformed or unreachable.")
+    
 
 if __name__ == "__main__":
     run()
