@@ -28,7 +28,7 @@ jobs:
                 working-dir: ${{ env.working-directory }}
                 target-env: ${{ inputs.target-env }}
             - name: Print setup deps output
-              run: echo "${{ steps.setup-deps.outputs.installed-deps && 'Installed' || 'Not installed' }}"
+              run: echo "${{ fromJson(steps.setup-deps.outputs.installed-deps) && 'Installed' || 'Not installed' }}"
             - name: Test
               run: npm run test
             - name: Build
