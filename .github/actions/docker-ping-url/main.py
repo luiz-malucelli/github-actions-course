@@ -12,9 +12,9 @@ def ping_url(url, delay, max_trials):
                 print(f"Success on trial {trial}")
                 return True
             else:
-                print(f"Status {status_code} on trial {trial}")
+                print(f"Status {status_code} on trial {trial}. Trying again in {delay} seconds...")
         except Exception as e:
-            print(f"Exception on trial {trial}: {e}")
+            print(f"Exception on trial {trial}. Trying again in {delay} seconds...")
 
         trial += 1
         time.sleep(delay)
