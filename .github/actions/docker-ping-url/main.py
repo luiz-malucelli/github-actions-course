@@ -8,7 +8,7 @@ def ping_url(url, delay, max_trials):
         try:
             with urllib.request.urlopen(url) as response:
                 status_code = response.getcode()
-                if (contents.status == '200'):
+                if (status_code == '200'):
                     print(f"Success on trial {trial}")
                     return True
                 else:
