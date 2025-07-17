@@ -18,8 +18,7 @@ const setupLogger = ({ debug, prefix } = { debug: false, prefix: ''}) => ({
  
 async function run() { 
   const baseBranch = core.getInput('base-branch', { required: true }).trim();
-  const targetBranch = core.getInput('target-branch', { required: true }).trim();
-  const headBranch = core.getInput('head-branch').trim() || targetBranch;
+  const headBranch = core.getInput('head-branch', { required: true }).trim();
   const ghToken = core.getInput('gh-token', { required: true }); 
   const workingDir = core.getInput('working-directory', { required: true }).trim();
   const debug = core.getBooleanInput('debug');
@@ -61,7 +60,7 @@ async function run() {
 
   const gitStatus = await exec.getExecOutput('git status -s package*.json', [], execOptions);
   const updatesAvailable = gitStatus.stdout.length > 0;
-  
+
   core.setOutput('updates-available', updatesAvailable);
 
   if (updatesAvailable) {
